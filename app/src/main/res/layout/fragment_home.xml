@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="80dp">
+
+        <!-- Status card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="?attr/colorOutlineVariant">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Status Sistem"
+                    android:textAppearance="?attr/textAppearanceTitleSmall"
+                    android:textColor="?attr/colorPrimary"
+                    android:paddingBottom="12dp"/>
+                <!-- Status rows -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical" android:paddingBottom="8dp">
+                    <TextView android:id="@+id/tvStatusNotif"
+                        android:layout_width="0dp" android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Notifikasi" android:textAppearance="?attr/textAppearanceBodyMedium"/>
+                    <TextView android:id="@+id/tvStatusNotifVal"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Nonaktif" android:textColor="?attr/colorError"
+                        android:textAppearance="?attr/textAppearanceBodySmall"/>
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical" android:paddingBottom="8dp">
+                    <TextView android:layout_width="0dp" android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Hei Alpha" android:textAppearance="?attr/textAppearanceBodyMedium"/>
+                    <TextView android:id="@+id/tvStatusWake"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Nonaktif" android:textColor="?attr/colorError"
+                        android:textAppearance="?attr/textAppearanceBodySmall"/>
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical">
+                    <TextView android:layout_width="0dp" android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Mode Berkendara" android:textAppearance="?attr/textAppearanceBodyMedium"/>
+                    <TextView android:id="@+id/tvStatusDriving"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Nonaktif" android:textColor="?attr/colorError"
+                        android:textAppearance="?attr/textAppearanceBodySmall"/>
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Debug: teks yang terdengar wake word -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardHeard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="?attr/colorOutlineVariant">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="16dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Mic Monitor"
+                    android:textAppearance="?attr/textAppearanceTitleSmall"
+                    android:textColor="?attr/colorPrimary" android:paddingBottom="4dp"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Teks yang ditangkap mikrofon (untuk cek sensitivitas)"
+                    android:textAppearance="?attr/textAppearanceBodySmall"
+                    android:textColor="?attr/colorOnSurfaceVariant" android:paddingBottom="8dp"/>
+                <TextView android:id="@+id/tvHeard"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:gravity="center_vertical"
+                    android:padding="12dp"
+                    android:background="@android:color/transparent"
+                    android:text="Menunggu suara..."
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:fontFamily="monospace"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Quick controls: Wake Word + Driving -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="?attr/colorOutlineVariant">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="16dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Kontrol Cepat"
+                    android:textAppearance="?attr/textAppearanceTitleSmall"
+                    android:textColor="?attr/colorPrimary" android:paddingBottom="12dp"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnWakeToggle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Aktifkan Hei Alpha"
+                    android:layout_marginBottom="8dp"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnDrivingToggle"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Mode Berkendara: OFF"
+                    android:layout_marginBottom="8dp"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnTestTts"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Test Suara TTS"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Kendali Musik -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="?attr/colorOutlineVariant">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="16dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Kendali Musik"
+                    android:textAppearance="?attr/textAppearanceTitleSmall"
+                    android:textColor="?attr/colorPrimary" android:paddingBottom="8dp"/>
+                <TextView android:id="@+id/tvNowPlaying"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Tidak ada musik"
+                    android:textAppearance="?attr/textAppearanceBodySmall"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:paddingBottom="12dp"/>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:weightSum="4" android:gravity="center">
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnMusicPrev"
+                        style="@style/Widget.Material3.Button.IconButton"
+                        android:layout_width="0dp" android:layout_weight="1"
+                        android:layout_height="56dp"
+                        android:text="⏮" android:textSize="20sp"/>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnMusicPause"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="0dp" android:layout_weight="1"
+                        android:layout_height="56dp"
+                        android:layout_marginHorizontal="4dp"
+                        android:text="⏸" android:textSize="20sp"/>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnMusicPlay"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="0dp" android:layout_weight="1"
+                        android:layout_height="56dp"
+                        android:layout_marginHorizontal="4dp"
+                        android:text="▶" android:textSize="20sp"/>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnMusicNext"
+                        style="@style/Widget.Material3.Button.IconButton"
+                        android:layout_width="0dp" android:layout_weight="1"
+                        android:layout_height="56dp"
+                        android:text="⏭" android:textSize="20sp"/>
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

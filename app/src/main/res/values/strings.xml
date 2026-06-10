@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NotifAssist</string>
+    <string name="title_app_rules">Pengaturan Aplikasi</string>
+    <string name="service_notif_label">NotifAssist Listener</string>
+</resources>
