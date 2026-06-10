@@ -5,7 +5,7 @@ import android.view.*
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import com.notifassist.databinding.FragmentSettingsBinding
-import com.notifassist.engine.DrivingModeManager
+import com.notifassist.engine.VoiceSettings
 import com.notifassist.service.TtsService
 
 class SettingsFragment : Fragment() {
@@ -52,17 +52,10 @@ class SettingsFragment : Fragment() {
             }, 300)
         }
 
-        // ── Mode berkendara ───────────────────────────────────────────────
-        b.switchBtAuto.isChecked       = DrivingModeManager.isBluetoothAutoEnabled(ctx)
-        b.switchWakeOnDrive.isChecked  = DrivingModeManager.isWakeWordOnDriving(ctx)
-        b.switchBtMic.isChecked        = DrivingModeManager.isBluetoothMicEnabled(ctx)
-        b.etBtFilter.setText(DrivingModeManager.getBtDeviceFilter(ctx))
-
-        b.switchBtAuto.setOnCheckedChangeListener { _, c -> DrivingModeManager.setBluetoothAutoEnabled(ctx, c) }
-        b.switchWakeOnDrive.setOnCheckedChangeListener { _, c -> DrivingModeManager.setWakeWordOnDriving(ctx, c) }
-        b.switchBtMic.setOnCheckedChangeListener { _, c -> DrivingModeManager.setBluetoothMicEnabled(ctx, c) }
-        b.etBtFilter.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) DrivingModeManager.setBtDeviceFilter(ctx, b.etBtFilter.text.toString())
+        // ── Mic Bluetooth ─────────────────────────────────────────────────
+        b.switchBtMic.isChecked = VoiceSettings.isBluetoothMicEnabled(ctx)
+        b.switchBtMic.setOnCheckedChangeListener { _, checked ->
+            VoiceSettings.setBluetoothMicEnabled(ctx, checked)
         }
 
         // ── Battery optimization ──────────────────────────────────────────

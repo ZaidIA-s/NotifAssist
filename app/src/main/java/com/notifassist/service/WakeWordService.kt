@@ -12,7 +12,7 @@ import android.os.PowerManager
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.notifassist.R
-import com.notifassist.engine.DrivingModeManager
+import com.notifassist.engine.VoiceSettings
 import com.notifassist.ui.MainActivity
 import kotlinx.coroutines.*
 import org.vosk.Model
@@ -121,7 +121,7 @@ class WakeWordService : Service() {
 
     private fun startBluetoothScoIfNeeded() {
         val am = audioManager ?: return
-        if (!DrivingModeManager.isBluetoothMicEnabled(this)) return
+        if (!VoiceSettings.isBluetoothMicEnabled(this)) return
         if (!am.isBluetoothScoAvailableOffCall) { Log.d(TAG, "BT SCO tak tersedia"); return }
         try {
             am.mode = AudioManager.MODE_IN_COMMUNICATION

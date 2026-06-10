@@ -77,7 +77,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- ═══ MODE BERKENDARA ═══ -->
+        <!-- MIKROFON DAN BACKGROUND -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:layout_marginBottom="12dp" app:cardCornerRadius="16dp"
@@ -86,53 +86,19 @@
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:orientation="vertical" android:padding="16dp">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="Mode Berkendara"
+                    android:text="Mikrofon &amp; Background"
                     android:textAppearance="?attr/textAppearanceTitleSmall"
                     android:textColor="?attr/colorPrimary" android:paddingBottom="12dp"/>
 
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:orientation="horizontal" android:gravity="center_vertical" android:paddingBottom="8dp">
-                    <TextView android:layout_width="0dp" android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="Aktif otomatis via Bluetooth"
-                        android:textAppearance="?attr/textAppearanceBodyMedium"/>
-                    <com.google.android.material.switchmaterial.SwitchMaterial
-                        android:id="@+id/switchBtAuto"
-                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-                </LinearLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent" android:layout_height="wrap_content"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    android:hint="Filter nama device BT (kosong = semua)">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etBtFilter"
-                        android:layout_width="match_parent" android:layout_height="wrap_content"
-                        android:inputType="text"/>
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:orientation="horizontal" android:gravity="center_vertical"
-                    android:layout_marginTop="8dp">
-                    <TextView android:layout_width="0dp" android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="Hei Alpha aktif saat berkendara"
-                        android:textAppearance="?attr/textAppearanceBodyMedium"/>
-                    <com.google.android.material.switchmaterial.SwitchMaterial
-                        android:id="@+id/switchWakeOnDrive"
-                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-                </LinearLayout>
-
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:orientation="horizontal" android:gravity="center_vertical"
-                    android:layout_marginTop="8dp">
+                    android:orientation="horizontal" android:gravity="center_vertical">
                     <LinearLayout android:layout_width="0dp" android:layout_weight="1"
                         android:layout_height="wrap_content" android:orientation="vertical">
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                             android:text="Gunakan mic headset Bluetooth"
                             android:textAppearance="?attr/textAppearanceBodyMedium"/>
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                            android:text="Tangkap suara dari mic helm/headset, bukan mic HP"
+                            android:text="Tangkap suara dari mic headset, bukan mic HP"
                             android:textAppearance="?attr/textAppearanceBodySmall"
                             android:textColor="?attr/colorOnSurfaceVariant"/>
                     </LinearLayout>

@@ -1,33 +1,10 @@
-# Android Studio and Gradle
-.gradle/
-build/
-/app/build/
 *.iml
-.idea/
+.gradle
+/local.properties
+/.idea
 .DS_Store
-
-# Local configuration files
-local.properties
-
-# Secrets and Signing
-*.jks
-*.keystore
-google-services.json
-
-# Heap dumps
-*.hprof
-
-# Log files
-*.log
-
-# Caches
+/build
+/captures
 .externalNativeBuild
 .cxx
-
-# Device/Capture files
-/captures/
-
-# Others
-/app/build/intermediates/
-/app/build/outputs/
-/app/build/tmp/
+local.properties

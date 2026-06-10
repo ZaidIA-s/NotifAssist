@@ -55,16 +55,6 @@
                         android:text="Nonaktif" android:textColor="?attr/colorError"
                         android:textAppearance="?attr/textAppearanceBodySmall"/>
                 </LinearLayout>
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:orientation="horizontal" android:gravity="center_vertical">
-                    <TextView android:layout_width="0dp" android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="Mode Berkendara" android:textAppearance="?attr/textAppearanceBodyMedium"/>
-                    <TextView android:id="@+id/tvStatusDriving"
-                        android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:text="Nonaktif" android:textColor="?attr/colorError"
-                        android:textAppearance="?attr/textAppearanceBodySmall"/>
-                </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -100,7 +90,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Quick controls: Wake Word + Driving -->
+        <!-- Quick controls -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -120,13 +110,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Aktifkan Hei Alpha"
-                    android:layout_marginBottom="8dp"/>
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnDrivingToggle"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Mode Berkendara: OFF"
                     android:layout_marginBottom="8dp"/>
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnTestTts"

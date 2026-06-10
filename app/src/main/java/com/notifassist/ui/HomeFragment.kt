@@ -15,7 +15,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.notifassist.databinding.FragmentHomeBinding
-import com.notifassist.engine.DrivingModeManager
 import com.notifassist.service.*
 
 class HomeFragment : Fragment() {
@@ -80,20 +79,6 @@ class HomeFragment : Fragment() {
             updateStatus()
         }
 
-        b.btnDrivingToggle.setOnClickListener {
-            val ctx = requireContext()
-            if (!DrivingModeManager.isDriving) {
-                DrivingModeService.start(ctx)
-                b.btnDrivingToggle.text = "Mode Berkendara: ON"
-                TtsService.speak(ctx, "Mode berkendara aktif.", pauseMusic = false)
-            } else {
-                DrivingModeService.stop(ctx)
-                DrivingModeManager.setDriving(ctx, false)
-                b.btnDrivingToggle.text = "Mode Berkendara: OFF"
-            }
-            updateStatus()
-        }
-
         b.btnMusicPause.setOnClickListener { MediaControlService.pauseMusic(requireContext()) }
         b.btnMusicPlay.setOnClickListener  { MediaControlService.resumeMusic(requireContext()) }
         b.btnMusicNext.setOnClickListener  { MediaControlService.nextTrack(requireContext()) }
@@ -121,7 +106,6 @@ class HomeFragment : Fragment() {
     private fun updateStatus() {
         val ctx = context ?: return
         val hasNotifAccess = isNotifListenerEnabled()
-        val isDriving = DrivingModeManager.isDriving
 
         // Status notifikasi
         b.tvStatusNotifVal.text = if (hasNotifAccess) "Aktif" else "Nonaktif"
@@ -134,13 +118,6 @@ class HomeFragment : Fragment() {
         b.tvStatusWake.text = if (wakeEnabled) "Aktif" else "Nonaktif"
         b.tvStatusWake.setTextColor(
             if (wakeEnabled) resources.getColor(com.google.android.material.R.color.design_default_color_primary, null)
-            else requireContext().getColor(android.R.color.holo_red_dark)
-        )
-
-        // Status driving
-        b.tvStatusDriving.text = if (isDriving) "Aktif" else "Nonaktif"
-        b.tvStatusDriving.setTextColor(
-            if (isDriving) resources.getColor(com.google.android.material.R.color.design_default_color_primary, null)
             else requireContext().getColor(android.R.color.holo_red_dark)
         )
 

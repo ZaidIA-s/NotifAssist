@@ -84,17 +84,6 @@
             android:exported="false"
             android:foregroundServiceType="microphone" />
 
-        <!-- Voice Command Service (push-to-talk fallback) -->
-
-        <service
-            android:name=".service.DrivingModeService"
-            android:exported="false"
-            android:foregroundServiceType="specialUse">
-            <property
-                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
-                android:value="Bluetooth driving mode detector" />
-        </service>
-
         <receiver
             android:name=".receiver.BootReceiver"
             android:exported="true">

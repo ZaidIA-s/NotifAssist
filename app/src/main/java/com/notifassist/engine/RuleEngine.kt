@@ -1,7 +1,6 @@
 package com.notifassist.engine
 
 import android.content.Context
-import com.notifassist.engine.DrivingModeManager
 import com.notifassist.data.AppRule
 import com.notifassist.data.RuleDatabase
 import kotlinx.coroutines.Dispatchers
@@ -61,8 +60,6 @@ class RuleEngine(context: Context) {
     }
 
     private fun isWithinActiveHours(rule: AppRule): Boolean {
-        // Mode berkendara aktif = override jam, selalu baca
-        if (DrivingModeManager.shouldOverrideActiveHours()) return true
         if (rule.priority >= 1) return true
         val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
         return hour in rule.activeHourStart..rule.activeHourEnd
