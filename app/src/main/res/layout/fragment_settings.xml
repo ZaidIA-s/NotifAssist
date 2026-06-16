@@ -77,7 +77,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- MIKROFON DAN BACKGROUND -->
+        <!-- BACKGROUND -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:layout_marginBottom="12dp" app:cardCornerRadius="16dp"
@@ -86,26 +86,13 @@
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:orientation="vertical" android:padding="16dp">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="Mikrofon &amp; Background"
+                    android:text="Background"
                     android:textAppearance="?attr/textAppearanceTitleSmall"
-                    android:textColor="?attr/colorPrimary" android:paddingBottom="12dp"/>
-
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:orientation="horizontal" android:gravity="center_vertical">
-                    <LinearLayout android:layout_width="0dp" android:layout_weight="1"
-                        android:layout_height="wrap_content" android:orientation="vertical">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                            android:text="Gunakan mic headset Bluetooth"
-                            android:textAppearance="?attr/textAppearanceBodyMedium"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                            android:text="Tangkap suara dari mic headset, bukan mic HP"
-                            android:textAppearance="?attr/textAppearanceBodySmall"
-                            android:textColor="?attr/colorOnSurfaceVariant"/>
-                    </LinearLayout>
-                    <com.google.android.material.switchmaterial.SwitchMaterial
-                        android:id="@+id/switchBtMic"
-                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-                </LinearLayout>
+                    android:textColor="?attr/colorPrimary" android:paddingBottom="4dp"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Agar notifikasi tetap terbaca saat layar mati, matikan optimasi baterai dan izinkan auto-start di pengaturan HP."
+                    android:textAppearance="?attr/textAppearanceBodySmall"
+                    android:textColor="?attr/colorOnSurfaceVariant"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnBatteryOpt"
@@ -114,29 +101,6 @@
                     android:layout_marginTop="12dp"
                     android:text="Matikan Optimasi Baterai (agar tidak mati sendiri)"
                     android:textSize="12sp"/>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- ═══ PERINTAH SUARA ═══ -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp" app:cardCornerRadius="16dp"
-            app:cardElevation="0dp" app:strokeWidth="1dp"
-            app:strokeColor="?attr/colorOutlineVariant">
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:orientation="vertical" android:padding="16dp">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="Hei Alpha — Perintah Suara"
-                    android:textAppearance="?attr/textAppearanceTitleSmall"
-                    android:textColor="?attr/colorPrimary" android:paddingBottom="4dp"/>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="Ucapkan 'Hei Alpha' lalu perintah dalam bahasa Indonesia:"
-                    android:textAppearance="?attr/textAppearanceBodySmall"
-                    android:textColor="?attr/colorOnSurfaceVariant" android:paddingBottom="8dp"/>
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:textAppearance="?attr/textAppearanceBodySmall"
-                    android:lineSpacingExtra="4dp"
-                    android:text="• berhenti / pause → Musik berhenti\n• lanjutkan / play → Musik lanjut\n• berikutnya / ganti lagu → Lagu berikutnya\n• sebelumnya / kembali → Lagu sebelumnya\n• lagu apa / judul → Info lagu\n• baca ulang / ulangi → Baca ulang notif"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 

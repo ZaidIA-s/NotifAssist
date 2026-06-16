@@ -40,6 +40,12 @@ class TtsService : Service() {
         const val KEY_SPEED      = "speed"
         const val KEY_PITCH      = "pitch"
 
+        /** Jalankan service sebagai foreground persisten (tanpa bicara) agar
+         *  proses tetap hidup & listener notifikasi tidak dibekukan sistem. */
+        fun start(context: Context) {
+            context.startForegroundService(Intent(context, TtsService::class.java))
+        }
+
         fun speak(context: Context, text: String, pauseMusic: Boolean = true) {
             context.startForegroundService(
                 Intent(context, TtsService::class.java).apply {
@@ -135,7 +141,9 @@ class TtsService : Service() {
                 if (ttsReady) processQueue()
             }
         }
-        return START_NOT_STICKY
+        // START_STICKY: sistem menjalankan ulang service ini bila sempat dimatikan,
+        // sehingga pemantauan notifikasi tetap berjalan.
+        return START_STICKY
     }
 
     private fun processQueue() {

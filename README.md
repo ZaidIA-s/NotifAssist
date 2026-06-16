@@ -1,22 +1,20 @@
 # NotifAssist
 
-**NotifAssist** adalah asisten notifikasi cerdas untuk Android yang dirancang untuk membantu pengguna mengelola dan merespons notifikasi secara hands-free. Aplikasi ini sangat berguna saat berkendara atau ketika akses ke ponsel terbatas.
+**NotifAssist** adalah asisten notifikasi untuk Android yang membacakan pesan masuk dari aplikasi pilihan Anda melalui suara (TTS). Berguna saat berkendara atau ketika akses ke ponsel terbatas — suara otomatis keluar lewat speaker HP atau speaker/headset Bluetooth bila tersambung.
 
 ## 🚀 Fitur Utama
 
 - **Notification Listener:** Membaca notifikasi masuk dari berbagai aplikasi populer (WhatsApp, Telegram, Gmail, dll).
-- **Text-to-Speech (TTS):** Mengubah teks notifikasi menjadi suara secara real-time.
-- **Wake Word Recognition:** Fitur aktivasi suara menggunakan Vosk untuk mendengarkan perintah pengguna (Contoh: "Hey Assist").
-- **Driving Mode:** Deteksi otomatis saat terhubung ke Bluetooth kendaraan untuk mengaktifkan mode asisten.
-- **Privacy Focused:** Semua pemrosesan suara dilakukan secara lokal (on-device) tanpa mengirim data ke cloud.
+- **Text-to-Speech (TTS):** Mengubah teks notifikasi menjadi suara secara real-time, otomatis ke speaker HP atau Bluetooth (A2DP).
+- **Aturan per Aplikasi:** Pilih aplikasi mana yang notifikasinya dibacakan.
+- **Auto-pause Musik:** Musik dijeda sejenak saat notifikasi dibacakan, lalu dilanjutkan.
+- **Privacy Focused:** Pemrosesan dilakukan secara lokal (on-device) tanpa mengirim data ke cloud.
 
 ## 🛠️ Teknologi yang Digunakan
 
 - **Bahasa:** [Kotlin](https://kotlinlang.org/)
-- **Arsitektur:** MVVM dengan Jetpack Components (Lifecycle, Room, ViewBinding).
-- **Speech Recognition:** 
-  - [Vosk Android SDK](https://alphacephei.com/vosk/android)
-  - [Sherpa-ONNX](https://github.com/k2-fsa/sherpa-onnx) (Local AAR)
+- **Arsitektur:** Jetpack Components (Lifecycle, Room, ViewBinding).
+- **Text-to-Speech:** Google TextToSpeech bawaan Android.
 - **Database:** Room Persistence Library.
 - **Concurrency:** Kotlin Coroutines.
 
@@ -26,12 +24,10 @@
    ```bash
    git clone https://github.com/USERNAME/NotifAssist.git
    ```
-2. **Setup Library Lokal:**
-   Pastikan file `sherpa-onnx.aar` sudah ada di dalam folder `app/libs/`. Jika belum, unduh dari [sini](https://huggingface.co/csukuangfj/sherpa-onnx-libs/tree/main/android/aar).
-3. **Build Project:**
+2. **Build Project:**
    Buka project di Android Studio dan lakukan **Gradle Sync**.
-4. **Izin Aplikasi:**
-   Berikan izin **Notification Access** dan **Microphone** agar fitur asisten berfungsi maksimal.
+3. **Izin Aplikasi:**
+   Berikan izin **Notification Access** agar aplikasi dapat membaca notifikasi, lalu matikan optimasi baterai & izinkan auto-start agar tetap berjalan di background.
 
 ## 📝 Konfigurasi Git (Langkah Push ke GitHub)
 

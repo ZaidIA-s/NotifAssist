@@ -5,7 +5,6 @@ import android.view.*
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import com.notifassist.databinding.FragmentSettingsBinding
-import com.notifassist.engine.VoiceSettings
 import com.notifassist.service.TtsService
 
 class SettingsFragment : Fragment() {
@@ -50,12 +49,6 @@ class SettingsFragment : Fragment() {
             android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
                 TtsService.speak(ctx, "Halo! Ini suara NotifAssist. Pesan dari WhatsApp telah tiba.", pauseMusic = false)
             }, 300)
-        }
-
-        // ── Mic Bluetooth ─────────────────────────────────────────────────
-        b.switchBtMic.isChecked = VoiceSettings.isBluetoothMicEnabled(ctx)
-        b.switchBtMic.setOnCheckedChangeListener { _, checked ->
-            VoiceSettings.setBluetoothMicEnabled(ctx, checked)
         }
 
         // ── Battery optimization ──────────────────────────────────────────

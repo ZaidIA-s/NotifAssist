@@ -1,5 +1,6 @@
 package com.notifassist.service
 
+import android.content.ComponentName
 import android.content.pm.PackageManager
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
@@ -14,7 +15,8 @@ class NotifListenerService : NotificationListenerService() {
 
     companion object {
         private const val TAG = "NotifListener"
-        private const val MAX_AGE_MS    = 10_000L
+        // Longgar agar pesan yang datang ter-batch saat HP standby/Doze tidak terbuang.
+        private const val MAX_AGE_MS    = 60_000L
         private const val DEDUP_TTL_MS  = 180_000L  // ingat pesan yang sudah dibaca selama 3 menit
     }
 
@@ -30,6 +32,25 @@ class NotifListenerService : NotificationListenerService() {
         super.onCreate()
         ruleEngine = RuleEngine(this)
         Log.d(TAG, "NotifListenerService started")
+    }
+
+    // Saat binding terbentuk — listener siap menerima notifikasi.
+    override fun onListenerConnected() {
+        super.onListenerConnected()
+        Log.d(TAG, "Listener connected")
+    }
+
+    // ROM OEM (itelOS/Transsion dsb.) sering memutus binding listener saat proses
+    // dibekukan / tekanan memori. Tanpa rebind, onNotificationPosted berhenti dipanggil
+    // secara diam-diam meski app masih terlihat di recents. Minta sistem bind ulang.
+    override fun onListenerDisconnected() {
+        super.onListenerDisconnected()
+        Log.w(TAG, "Listener disconnected — requesting rebind")
+        try {
+            requestRebind(ComponentName(this, NotifListenerService::class.java))
+        } catch (e: Exception) {
+            Log.e(TAG, "requestRebind gagal: ${e.message}")
+        }
     }
 
     override fun onNotificationPosted(sbn: StatusBarNotification?) {
@@ -67,7 +88,6 @@ class NotifListenerService : NotificationListenerService() {
 
                         if (decision.shouldSpeak) {
                             spokenMessages[id] = System.currentTimeMillis()
-                            WakeWordService.lastNotifText = decision.ttsText
                             Log.d(TAG, "Speak: ${decision.ttsText}")
                             TtsService.speak(
                                 context    = this@NotifListenerService,
