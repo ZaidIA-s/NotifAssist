@@ -11,3 +11,7 @@ app/build/
 local.properties
 *.hprof
 *.onnx
+
+# Model Vosk (~55MB) — dipasang lokal, jangan di-commit. Lihat SETUP.md.
+app/src/main/assets/model-id/*
+!app/src/main/assets/model-id/SETUP.md

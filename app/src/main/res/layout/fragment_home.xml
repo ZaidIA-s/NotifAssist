@@ -78,6 +78,15 @@
                         android:layout_marginStart="14dp"
                         android:text="✓ Baterai"
                         android:textAppearance="?attr/textAppearanceLabelSmall"/>
+
+                    <TextView
+                        android:id="@+id/tvChipMic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:text="✓ Mikrofon"
+                        android:visibility="gone"
+                        android:textAppearance="?attr/textAppearanceLabelSmall"/>
                 </LinearLayout>
 
                 <com.google.android.material.button.MaterialButton

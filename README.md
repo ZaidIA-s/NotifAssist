@@ -16,6 +16,40 @@ Semua pemrosesan dilakukan **on-device**, tanpa koneksi internet dan tanpa mengi
 - **MessagingStyle Support** — pesan beruntun dari WhatsApp/Telegram dibaca secara kronologis
 - **Foreground Service Persisten** — berjalan terus di background dengan notifikasi status permanen
 - **Auto-start saat Boot** — aktif kembali otomatis setelah HP restart
+- **Perintah Suara (Wake Word)** — sebut kata pemicu lalu beri perintah suara untuk kendali musik & mengulang notifikasi — sepenuhnya offline via Vosk *(opsional, perlu setup model)*
+
+---
+
+## Perintah Suara (Wake Word)
+
+Fitur opsional untuk mengendalikan app tanpa menyentuh layar. Ucapkan **wake word** (default **"hai alfa"**), tunggu nada *beep*, lalu ucapkan perintah:
+
+| Perintah | Aksi |
+|---|---|
+| `putar` | Lanjutkan musik |
+| `jeda` | Jeda musik |
+| `lanjut` | Lagu berikutnya |
+| `sebelumnya` | Lagu sebelumnya |
+| `volume naik` / `volume turun` | Atur volume |
+| `ulang` | Bacakan ulang notifikasi terakhir |
+| `batal` | Batalkan |
+
+**Mic Adaptif (solusi headset Bluetooth):** saat ada musik diputar lewat headset BT, app memakai **mic HP** agar kualitas musik (A2DP) tetap tinggi; saat hening, app beralih ke **mic headset** untuk pickup lebih baik. Tidak pernah memaksa SCO saat musik berjalan, sehingga kualitas audio headset tidak turun.
+
+> Semua pengenalan suara berjalan **100% di perangkat** (offline). Mikrofon hanya aktif saat fitur ini dinyalakan di Pengaturan.
+
+### Setup Model Vosk (wajib untuk fitur ini)
+
+Model Bahasa Indonesia (~55 MB) **tidak disertakan di repo** dan harus dipasang manual sekali. Lihat petunjuk lengkap di [`app/src/main/assets/model-id/SETUP.md`](app/src/main/assets/model-id/SETUP.md).
+
+Singkatnya:
+```bash
+git clone https://github.com/bookbot-kids/speech-recognizer-bahasa-indonesian
+git lfs pull   # bila file model berupa pointer LFS
+# salin isi .../assets/model-id-id/  →  app/src/main/assets/model-id/
+```
+
+Tanpa model, app tetap berjalan normal sebagai pembaca notifikasi — fitur perintah suara hanya akan nonaktif otomatis.
 
 ---
 
@@ -31,7 +65,7 @@ Menampilkan status tiga izin yang dibutuhkan secara ringkas dalam satu baris chi
 Daftar aplikasi yang sudah ditambahkan, masing-masing dengan toggle aktif/nonaktif dan tombol ⚙ untuk konfigurasi detail. Tombol "+ Tambah App" dan "🔊 Test Suara" ada di bagian bawah.
 
 ### Pengaturan
-Konfigurasi global suara TTS: pilihan suara Google, kecepatan, dan nada.
+Konfigurasi global suara TTS: pilihan suara Google, kecepatan, dan nada. Juga berisi card **Perintah Suara**: toggle aktif/nonaktif, pilihan wake word, mode mikrofon (adaptif / HP / headset), dan sensitivitas.
 
 ---
 
@@ -42,6 +76,7 @@ Konfigurasi global suara TTS: pilihan suara Google, kecepatan, dan nada.
 | Akses Notifikasi | Wajib — untuk membaca notifikasi masuk |
 | Izin Notifikasi Sistem | Wajib di Android 13+ — agar foreground service bisa tampil |
 | Bebas Optimasi Baterai | Sangat direkomendasikan — mencegah sistem mematikan service saat layar mati |
+| Mikrofon | Hanya untuk fitur Perintah Suara — diminta saat fitur diaktifkan |
 
 Semua izin dapat diaktifkan langsung dari halaman Beranda.
 
@@ -53,10 +88,11 @@ Semua izin dapat diaktifkan langsung dari halaman Beranda.
    ```bash
    git clone https://github.com/ZaidIA-s/NotifAssist.git
    ```
-2. Buka di **Android Studio** dan lakukan Gradle Sync.
-3. Build dan install ke perangkat (minSdk 31 / Android 12).
-4. Buka app → ikuti panduan izin di halaman Beranda.
-5. Tambahkan aplikasi yang ingin dipantau → tap "+ Tambah App".
+2. *(Opsional, untuk Perintah Suara)* Pasang model Vosk sesuai [`app/src/main/assets/model-id/SETUP.md`](app/src/main/assets/model-id/SETUP.md).
+3. Buka di **Android Studio** dan lakukan Gradle Sync.
+4. Build dan install ke perangkat (minSdk 31 / Android 12).
+5. Buka app → ikuti panduan izin di halaman Beranda.
+6. Tambahkan aplikasi yang ingin dipantau → tap "+ Tambah App".
 
 ---
 
@@ -71,7 +107,8 @@ Semua izin dapat diaktifkan langsung dari halaman Beranda.
 | Database | Room 2.6.1 |
 | Async | Kotlin Coroutines + Flow |
 | TTS | Android `TextToSpeech` (Google TTS) |
-| Background | `NotificationListenerService` + `ForegroundService` |
+| Voice Recognition | Vosk (Kaldi) — offline, grammar terbatas; model ID komunitas bookbot |
+| Background | `NotificationListenerService` + `ForegroundService` (TTS & Mikrofon) |
 
 ---
 

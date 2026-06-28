@@ -3,4 +3,15 @@
     <string name="app_name">NotifAssist</string>
     <string name="title_app_rules">Pengaturan Aplikasi</string>
     <string name="service_notif_label">NotifAssist Listener</string>
+
+    <!-- Perintah Suara -->
+    <string name="voice_title">Perintah Suara</string>
+    <string name="voice_enable">Aktifkan perintah suara</string>
+    <string name="voice_privacy">Pemrosesan suara 100%% di perangkat (offline). Tidak ada audio yang dikirim ke server. Mikrofon hanya aktif saat fitur ini dinyalakan.</string>
+    <string name="voice_wake_phrase">Kata pemicu (wake word)</string>
+    <string name="voice_mic_mode">Sumber mikrofon</string>
+    <string name="voice_sensitivity">Sensitivitas</string>
+    <string name="voice_model_missing">Model suara belum terpasang. Lihat assets/model-id.</string>
+    <string name="voice_need_mic">Izin mikrofon diperlukan untuk perintah suara.</string>
+    <string name="chip_mic">Mikrofon</string>
 </resources>

@@ -78,6 +78,25 @@ object MediaControlService {
         }
     }
 
+    /** Naikkan volume media satu langkah */
+    fun volumeUp(context: Context) = adjustMediaVolume(context, android.media.AudioManager.ADJUST_RAISE)
+
+    /** Turunkan volume media satu langkah */
+    fun volumeDown(context: Context) = adjustMediaVolume(context, android.media.AudioManager.ADJUST_LOWER)
+
+    private fun adjustMediaVolume(context: Context, direction: Int) {
+        try {
+            val am = context.getSystemService(Context.AUDIO_SERVICE) as android.media.AudioManager
+            am.adjustStreamVolume(
+                android.media.AudioManager.STREAM_MUSIC,
+                direction,
+                android.media.AudioManager.FLAG_SHOW_UI
+            )
+        } catch (e: Exception) {
+            Log.e(TAG, "adjustMediaVolume error: ${e.message}")
+        }
+    }
+
     /** Cek apakah ada musik yang sedang bermain */
     fun isMusicPlaying(context: Context): Boolean {
         return try {

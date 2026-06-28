@@ -31,6 +31,8 @@ import com.notifassist.data.RuleDatabase
 import com.notifassist.databinding.FragmentHomeBinding
 import com.notifassist.service.NotifListenerService
 import com.notifassist.service.TtsService
+import com.notifassist.service.VoiceCommandService
+import com.notifassist.voice.VoicePrefs
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -43,6 +45,13 @@ class HomeFragment : Fragment() {
     private val postNotifLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { _ -> updatePermissionStatus() }
+
+    private val micPermLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (granted) context?.let { VoiceCommandService.start(it) }
+        updatePermissionStatus()
+    }
 
     private val statusUpdater = object : Runnable {
         override fun run() {
@@ -196,11 +205,19 @@ class HomeFragment : Fragment() {
 
     private fun updatePermissionStatus() {
         if (_b == null) return
+        val ctx = context ?: return
         val hasNotifListener = isNotifListenerEnabled()
         val hasPostNotif     = isPostNotifGranted()
         val hasBatteryOpt    = isBatteryOptExcluded()
-        val allOk = hasNotifListener && hasPostNotif && hasBatteryOpt
-        val missingCount = listOf(hasNotifListener, hasPostNotif, hasBatteryOpt).count { !it }
+
+        // Mikrofon hanya relevan bila perintah suara diaktifkan
+        val voiceEnabled = VoicePrefs.isEnabled(ctx)
+        val hasMic       = isMicGranted()
+
+        val checks = mutableListOf(hasNotifListener, hasPostNotif, hasBatteryOpt)
+        if (voiceEnabled) checks.add(hasMic)
+        val allOk = checks.all { it }
+        val missingCount = checks.count { !it }
 
         if (allOk) {
             b.tvMainStatus.text = "● Aktif"
@@ -216,7 +233,17 @@ class HomeFragment : Fragment() {
         setChip(b.tvChipPostNotif, hasPostNotif,     "Izin Sistem")
         setChip(b.tvChipBattery,   hasBatteryOpt,    "Baterai")
 
+        b.tvChipMic.visibility = if (voiceEnabled) View.VISIBLE else View.GONE
+        if (voiceEnabled) setChip(b.tvChipMic, hasMic, "Mikrofon")
+
         b.btnCheckPermissions.visibility = if (allOk) View.GONE else View.VISIBLE
+    }
+
+    private fun isMicGranted(): Boolean {
+        val ctx = context ?: return false
+        return ContextCompat.checkSelfPermission(
+            ctx, Manifest.permission.RECORD_AUDIO
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
     private fun setChip(tv: TextView, ok: Boolean, label: String) {
@@ -252,6 +279,9 @@ class HomeFragment : Fragment() {
                     startActivity(Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS))
                 }
             }
+
+            VoicePrefs.isEnabled(ctx) && !isMicGranted() ->
+                micPermLauncher.launch(Manifest.permission.RECORD_AUDIO)
 
             else -> Toast.makeText(ctx, "Semua izin aktif!", Toast.LENGTH_SHORT).show()
         }

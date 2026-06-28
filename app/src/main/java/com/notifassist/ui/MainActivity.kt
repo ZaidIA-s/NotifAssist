@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.notifassist.R
 import com.notifassist.databinding.ActivityMainBinding
 import com.notifassist.service.TtsService
+import com.notifassist.service.VoiceCommandService
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,6 +17,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         TtsService.start(this)
+        // No-op bila fitur OFF / izin mic belum ada / model belum terpasang
+        VoiceCommandService.start(this)
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()

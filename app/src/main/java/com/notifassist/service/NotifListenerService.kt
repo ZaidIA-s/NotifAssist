@@ -7,6 +7,7 @@ import android.service.notification.StatusBarNotification
 import android.util.Log
 import com.notifassist.engine.MessageParser
 import com.notifassist.engine.RuleEngine
+import com.notifassist.voice.LastSpokenStore
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.withLock
 import java.util.concurrent.ConcurrentHashMap
@@ -91,6 +92,8 @@ class NotifListenerService : NotificationListenerService() {
                         if (decision.shouldSpeak) {
                             spokenMessages[id] = System.currentTimeMillis()
                             Log.d(TAG, "Speak: ${decision.ttsText}")
+                            // Simpan untuk perintah suara "ulangi"
+                            LastSpokenStore.record(decision.ttsText)
                             TtsService.speak(
                                 context    = this@NotifListenerService,
                                 text       = decision.ttsText,

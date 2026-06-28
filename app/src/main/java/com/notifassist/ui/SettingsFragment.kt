@@ -1,16 +1,34 @@
 package com.notifassist.ui
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.*
 import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.notifassist.databinding.FragmentSettingsBinding
 import com.notifassist.service.TtsService
+import com.notifassist.service.VoiceCommandService
+import com.notifassist.voice.VoicePrefs
+import com.notifassist.voice.VoskModelProvider
 
 class SettingsFragment : Fragment() {
 
     private var _b: FragmentSettingsBinding? = null
     private val b get() = _b!!
+
+    private val micPermLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (granted) enableVoice(true)
+        else {
+            b.switchVoiceEnable.isChecked = false
+            Toast.makeText(requireContext(), getString(com.notifassist.R.string.voice_need_mic), Toast.LENGTH_LONG).show()
+        }
+    }
 
     override fun onCreateView(i: LayoutInflater, c: ViewGroup?, s: Bundle?) =
         FragmentSettingsBinding.inflate(i, c, false).also { _b = it }.root
@@ -22,6 +40,9 @@ class SettingsFragment : Fragment() {
 
         // ── Suara Google TTS ──────────────────────────────────────────────
         loadGoogleVoices()
+
+        // ── Perintah Suara ────────────────────────────────────────────────
+        setupVoiceCommands()
 
         // Speed
         val savedSpeed = prefs.getFloat(TtsService.KEY_SPEED, 0.95f)
@@ -51,6 +72,82 @@ class SettingsFragment : Fragment() {
             }, 300)
         }
 
+    }
+
+    // ── Perintah Suara ────────────────────────────────────────────────────
+    private fun setupVoiceCommands() {
+        val ctx = requireContext()
+
+        b.switchVoiceEnable.isChecked = VoicePrefs.isEnabled(ctx)
+        updateVoiceOptionsVisibility(VoicePrefs.isEnabled(ctx))
+
+        b.switchVoiceEnable.setOnCheckedChangeListener { _, checked ->
+            if (checked) {
+                if (!VoskModelProvider.isModelPresent(ctx)) {
+                    b.switchVoiceEnable.isChecked = false
+                    Toast.makeText(ctx, com.notifassist.R.string.voice_model_missing, Toast.LENGTH_LONG).show()
+                    return@setOnCheckedChangeListener
+                }
+                if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.RECORD_AUDIO)
+                    == PackageManager.PERMISSION_GRANTED) {
+                    enableVoice(true)
+                } else {
+                    micPermLauncher.launch(Manifest.permission.RECORD_AUDIO)
+                }
+            } else {
+                enableVoice(false)
+            }
+        }
+
+        // Wake phrase dropdown
+        val phrases = VoicePrefs.WAKE_PHRASES
+        b.spinnerWakePhrase.setAdapter(
+            ArrayAdapter(ctx, android.R.layout.simple_dropdown_item_1line, phrases)
+        )
+        b.spinnerWakePhrase.setText(VoicePrefs.wakePhrase(ctx), false)
+        b.spinnerWakePhrase.setOnItemClickListener { _, _, pos, _ ->
+            VoicePrefs.get(ctx).edit().putString(VoicePrefs.KEY_WAKE_PHRASE, phrases[pos]).apply()
+            restartVoiceIfEnabled()
+        }
+
+        // Mic mode dropdown
+        val micLabels = listOf("Adaptif (otomatis)", "Selalu mic HP", "Utamakan mic headset")
+        val micValues = listOf(VoicePrefs.MIC_ADAPTIVE, VoicePrefs.MIC_PHONE, VoicePrefs.MIC_HEADSET)
+        b.spinnerMicMode.setAdapter(
+            ArrayAdapter(ctx, android.R.layout.simple_dropdown_item_1line, micLabels)
+        )
+        val curMic = micValues.indexOf(VoicePrefs.micMode(ctx)).coerceAtLeast(0)
+        b.spinnerMicMode.setText(micLabels[curMic], false)
+        b.spinnerMicMode.setOnItemClickListener { _, _, pos, _ ->
+            VoicePrefs.get(ctx).edit().putString(VoicePrefs.KEY_MIC_MODE, micValues[pos]).apply()
+            restartVoiceIfEnabled()
+        }
+
+        // Sensitivity
+        b.sliderSensitivity.value = VoicePrefs.sensitivity(ctx)
+        b.sliderSensitivity.addOnChangeListener { _, value, fromUser ->
+            if (fromUser) VoicePrefs.get(ctx).edit().putFloat(VoicePrefs.KEY_SENSITIVITY, value).apply()
+        }
+    }
+
+    private fun enableVoice(enable: Boolean) {
+        val ctx = requireContext()
+        VoicePrefs.get(ctx).edit().putBoolean(VoicePrefs.KEY_ENABLED, enable).apply()
+        updateVoiceOptionsVisibility(enable)
+        if (enable) VoiceCommandService.start(ctx) else VoiceCommandService.stop(ctx)
+    }
+
+    /** Terapkan ulang setting (restart service) bila fitur sedang aktif. */
+    private fun restartVoiceIfEnabled() {
+        val ctx = requireContext()
+        if (VoicePrefs.isEnabled(ctx)) {
+            VoiceCommandService.stop(ctx)
+            VoiceCommandService.start(ctx)
+        }
+    }
+
+    private fun updateVoiceOptionsVisibility(visible: Boolean) {
+        b.voiceOptions.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
     private fun loadGoogleVoices() {

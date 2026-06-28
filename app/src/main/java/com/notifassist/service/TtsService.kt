@@ -12,6 +12,7 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.notifassist.R
 import com.notifassist.ui.MainActivity
+import com.notifassist.voice.SpeakingState
 import kotlinx.coroutines.*
 import java.util.LinkedList
 import java.util.Locale
@@ -173,6 +174,8 @@ class TtsService : Service() {
     }
 
     private fun onTtsDone() {
+        // Beri tahu VoiceCommandService bahwa TTS selesai → boleh mendengar lagi
+        SpeakingState.isSpeaking.set(false)
         audioManager.abandonAudioFocusRequest(focusRequest)
         if (musicWasPlaying && queue.isEmpty()) {
             scope.launch {
@@ -186,7 +189,8 @@ class TtsService : Service() {
     }
 
     private val utteranceListener = object : UtteranceProgressListener() {
-        override fun onStart(id: String?) {}
+        // Tandai sedang bicara → VoiceCommandService berhenti mengenali (anti self-trigger)
+        override fun onStart(id: String?) { SpeakingState.isSpeaking.set(true) }
         override fun onDone(id: String?)  { onTtsDone() }
         override fun onError(id: String?) { onTtsDone() }
     }
