@@ -20,47 +20,13 @@
             app:titleTextAppearance="?attr/textAppearanceTitleLarge" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Konten: banner (dalam alur) + fragment -->
-    <LinearLayout
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <!-- Banner izin — dalam alur normal, mendorong konten ke bawah -->
-        <LinearLayout
-            android:id="@+id/bannerPermission"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#FFCC00"
-            android:padding="12dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:visibility="gone">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="Izin baca notifikasi belum diberikan"
-                android:textColor="#1A1A1A"
-                android:textSize="13sp" />
-            <Button
-                android:id="@+id/btnGrantPermission"
-                style="@style/Widget.Material3.Button.TonalButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Berikan Izin"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragmentContainer"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:paddingBottom="56dp"
-            android:clipToPadding="false" />
-    </LinearLayout>
+        android:paddingBottom="56dp"
+        android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"

@@ -35,9 +35,11 @@ class NotifListenerService : NotificationListenerService() {
     }
 
     // Saat binding terbentuk — listener siap menerima notifikasi.
+    // Juga memastikan TtsService running; penting saat listener rebind setelah service-kill.
     override fun onListenerConnected() {
         super.onListenerConnected()
         Log.d(TAG, "Listener connected")
+        TtsService.start(this)
     }
 
     // ROM OEM (itelOS/Transsion dsb.) sering memutus binding listener saat proses

@@ -51,18 +51,6 @@ class SettingsFragment : Fragment() {
             }, 300)
         }
 
-        // ── Battery optimization ──────────────────────────────────────────
-        b.btnBatteryOpt.setOnClickListener {
-            try {
-                startActivity(android.content.Intent(
-                    android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
-                    android.net.Uri.parse("package:${ctx.packageName}")
-                ))
-            } catch (e: Exception) {
-                startActivity(android.content.Intent(
-                    android.provider.Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS))
-            }
-        }
     }
 
     private fun loadGoogleVoices() {

@@ -77,33 +77,6 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- BACKGROUND -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp" app:cardCornerRadius="16dp"
-            app:cardElevation="0dp" app:strokeWidth="1dp"
-            app:strokeColor="?attr/colorOutlineVariant">
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:orientation="vertical" android:padding="16dp">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="Background"
-                    android:textAppearance="?attr/textAppearanceTitleSmall"
-                    android:textColor="?attr/colorPrimary" android:paddingBottom="4dp"/>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="Agar notifikasi tetap terbaca saat layar mati, matikan optimasi baterai dan izinkan auto-start di pengaturan HP."
-                    android:textAppearance="?attr/textAppearanceBodySmall"
-                    android:textColor="?attr/colorOnSurfaceVariant"/>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnBatteryOpt"
-                    style="@style/Widget.Material3.Button.TonalButton"
-                    android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="Matikan Optimasi Baterai (agar tidak mati sendiri)"
-                    android:textSize="12sp"/>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
         <!-- ═══ TENTANG ═══ -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent" android:layout_height="wrap_content"

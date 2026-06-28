@@ -1,14 +1,10 @@
 package com.notifassist.ui
 
-import android.content.ComponentName
-import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.notifassist.R
 import com.notifassist.databinding.ActivityMainBinding
-import com.notifassist.service.NotifListenerService
+import com.notifassist.service.TtsService
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,8 +15,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
+        TtsService.start(this)
 
-        // Load default fragment
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, HomeFragment())
@@ -30,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNav.setOnItemSelectedListener { item ->
             val fragment = when (item.itemId) {
                 R.id.nav_home     -> HomeFragment()
-                R.id.nav_apps     -> AppsFragment()
                 R.id.nav_settings -> SettingsFragment()
                 else -> return@setOnItemSelectedListener false
             }
@@ -39,20 +34,5 @@ class MainActivity : AppCompatActivity() {
                 .commit()
             true
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val hasAccess = isNotifListenerEnabled()
-        binding.bannerPermission.visibility = if (hasAccess) View.GONE else View.VISIBLE
-        binding.btnGrantPermission.setOnClickListener {
-            startActivity(Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS))
-        }
-    }
-
-    private fun isNotifListenerEnabled(): Boolean {
-        val cn = ComponentName(this, NotifListenerService::class.java)
-        val flat = Settings.Secure.getString(contentResolver, "enabled_notification_listeners") ?: ""
-        return flat.contains(cn.flattenToString())
     }
 }
